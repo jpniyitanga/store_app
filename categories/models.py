@@ -3,8 +3,8 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
-    description = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
     image = models.ImageField(upload_to='photos/categories', blank=True)
 
     class Meta:
