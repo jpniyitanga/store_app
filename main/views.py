@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.views.generic import TemplateView
 
 
-def home(request):
-    return render('home.html')
+class HomepageTemplateView(TemplateView):
+    template_name = 'homepage.html'
