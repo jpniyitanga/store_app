@@ -1,8 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.views.generic import TemplateView
 
 
-class HomepageTemplateView(TemplateView):
-    template_name = 'homepage.html'
+class HomepageView(APIView):
+    def get(self, request):
+        data = {
+            "message": "Welcome to Homepage",
+            "message": "success"
+        }
+        return Response(data, status=status.HTTP_200_OK)

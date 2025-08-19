@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from . views import HomepageTemplateView
+from . views import HomepageView
 
 urlpatterns = [
-    path('', HomepageTemplateView.as_view(), name='homepage'),
     path('admin/', admin.site.urls),
-    path('products/', include('products.urls'))
+    path('', HomepageView.as_view()),
+    # path('products/', include('products.urls')),
+    path('api/', include('api.urls'))
 
 ]
+
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
