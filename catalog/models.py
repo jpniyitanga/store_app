@@ -28,6 +28,13 @@ class Category(models.Model):
         return self.name
 
 
+class Brand(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -38,6 +45,7 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True)
     # products remain if category is deleted
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, null=True)
     promotions = models.ManyToManyField(Promotion, default=None)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
