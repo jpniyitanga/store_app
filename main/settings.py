@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'categories',
     'accounts',
     'products',
+    'catalog',
     'debug_toolbar'
 ]
 
