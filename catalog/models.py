@@ -11,14 +11,20 @@ class Promotion(models.Model):
         return self.description
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=55, unique=True)
+    slug = models.SlugField()
+
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='photos/categories', blank=True)
-    # The + sign ignores the reverse relationship
-    featured_product = models.ForeignKey(
-        'Product', on_delete=models.SET_NULL, null=True, related_name='+')
+    tags = models.ManyToManyField(Tag, blank=True)
 
     class Meta:
         verbose_name = 'category'
@@ -30,6 +36,8 @@ class Category(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField()
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.name
@@ -47,8 +55,12 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, null=True)
     promotions = models.ManyToManyField(Promotion, default=None)
+    tags = models.ManyToManyField(Tag, blank=True)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+
+# 2:12 mark
