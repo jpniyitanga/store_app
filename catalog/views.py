@@ -15,6 +15,22 @@ class ProductDetailView(generics.RetrieveAPIView):
     lookup_field = 'slug'
 
 
+class ProductByPromotionListView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        promotion_id = self.kwargs['promotion_id']
+        return Product.objects.filter(promotion__id=promotion_id)
+
+
+class ProductByTagListView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        tag_slug = self.kwargs['tag_slug']
+        return Product.objects.filter(tags__slug=tag_slug)
+
+
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

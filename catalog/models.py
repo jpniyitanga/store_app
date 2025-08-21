@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Promotion(models.Model):
+    slug = models.SlugField()
     description = models.CharField(max_length=255)
     discount_percentage = models.FloatField()
     start_date = models.DateTimeField()
@@ -48,13 +49,13 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    images = models.ImageField(upload_to='photos/products')
+    image_url = models.CharField(max_length=255)
     stock = models.IntegerField()
     is_available = models.BooleanField(default=True)
     # products remain if category is deleted
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, null=True)
-    promotions = models.ManyToManyField(Promotion, default=None)
+    promotions = models.ManyToManyField(Promotion, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)

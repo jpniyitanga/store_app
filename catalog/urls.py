@@ -5,7 +5,9 @@ from .views import (
     CategoryListView,
     CategoryProductListView,
     BrandListView,
-    BrandProductListView
+    BrandProductListView,
+    ProductByPromotionListView,
+    ProductByTagListView
 )
 
 urlpatterns = [
@@ -22,4 +24,10 @@ urlpatterns = [
 
     path('brands/<slug:slug>/products/',
          BrandProductListView.as_view(), name='brand-product-list'),
+
+    path('products/promotion/<int:promotion_id>',
+         ProductByPromotionListView.as_view(), name='products-by-promotion'),
+
+    path('products/tag/<slug:tag_slug>/',
+         ProductByTagListView.as_view(), name='products-by-tag'),
 ]
