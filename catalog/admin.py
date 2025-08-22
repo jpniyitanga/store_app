@@ -7,6 +7,7 @@ from .models import Product, Category, Brand, Tag, Promotion
 
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
+    search_fields = ['name']
     list_display = ('name', 'slug', 'products_count')
 
     # Define computed field and make it sortable
@@ -52,6 +53,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name__icontains']
     # Create a filter for categories
     list_filter = ['category', InventoryFilter]
+    autocomplete_fields = ['category']
 
     @admin.display(ordering='stock')  # Sorting by new computed column
     def inventory_status(self, product):
