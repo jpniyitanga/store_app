@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Promotion(models.Model):
-    slug = models.SlugField()
     description = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
     discount_percentage = models.FloatField()
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()

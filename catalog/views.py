@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
-from .models import Product, Category, Brand
-from .serializers import ProductSerializer, CategorySerializer, BrandProductListSerializer, BrandSerializer
+from .models import Product, Category, Brand, Promotion
+from .serializers import ProductSerializer, CategorySerializer, BrandProductListSerializer, BrandSerializer, PromotionSerializer
 
 
 class ProductListView(generics.ListAPIView):
@@ -20,7 +20,7 @@ class ProductByPromotionListView(generics.ListAPIView):
 
     def get_queryset(self):
         promotion_id = self.kwargs['promotion_id']
-        return Product.objects.filter(promotion__id=promotion_id)
+        return Product.objects.filter(promotions__id=promotion_id)
 
 
 class ProductByTagListView(generics.ListAPIView):

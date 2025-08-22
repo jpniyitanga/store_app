@@ -9,7 +9,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'slug')
+    list_display = ('name', 'price')
 
 
 class BrandAdmin(admin.ModelAdmin):
@@ -20,6 +20,11 @@ class BrandAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'slug')
+
+
+class PromotionAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+    list_display = ('name', 'discount_percentage', 'start_date', 'end_date')
 
 
 admin.site.register(Category, CategoryAdmin)
