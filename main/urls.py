@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from . import views
 # from .views import HomepageTemplateView
+admin.site.site_header = 'Store Admin'
+admin.site.index_title = 'Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
