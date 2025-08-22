@@ -64,4 +64,4 @@ class Product(models.Model):
         return self.name
 
 
-# 2:12 mark
+# 2:20 mark

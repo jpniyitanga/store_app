@@ -19,12 +19,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-# from . views import HomepageView
-from .views import HomepageTemplateView
+from . import views
+# from .views import HomepageTemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', HomepageTemplateView.as_view(), name='home'),
+    path('', views.get_products),
+    # path('', HomepageTemplateView.as_view(), name='home'),
     # path('', HomepageView.as_view()),
     # path('products/', include('products.urls')),
     path('api/', include('api.urls')),

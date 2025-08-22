@@ -10,6 +10,7 @@ djangorestframework = "*"
 django-debug-toolbar = "*"
 mysqlclient = "*"
 python-dotenv = "*"
+django-extensions = "*"
 
 [dev-packages]
 

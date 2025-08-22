@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'orders',
     'customers',
     'likes',
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
