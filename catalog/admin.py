@@ -42,6 +42,34 @@ class InventoryFilter(admin.SimpleListFilter):
             return queryset.filter(stock__lt=60)
 
 
+class PromotionFilter(admin.SimpleListFilter):
+    title = 'Promotions'
+    parameter_name = 'promotions'
+
+    def lookups(self, request, model_admin):
+        promotions = Promotion.objects.all()
+        return [(promo.slug, promo.description) for promo in promotions]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(promotions__slug=self.value())
+        return queryset
+
+
+class TagFilter(admin.SimpleListFilter):
+    title = 'Tags'
+    parameter_name = 'tags'
+
+    def lookups(self, request, model_admin):
+        tags = Tag.objects.all()
+        return [(tag.slug, tag.name) for tag in tags]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(tags__name=self.value())
+        return queryset
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
@@ -52,7 +80,7 @@ class ProductAdmin(admin.ModelAdmin):
     # Create  search field with case insensitive
     search_fields = ['name__icontains']
     # Create a filter for categories
-    list_filter = ['category', InventoryFilter]
+    list_filter = ['category', InventoryFilter, PromotionFilter, TagFilter]
     autocomplete_fields = ['category']
 
     @admin.display(ordering='stock')  # Sorting by new computed column
