@@ -36,18 +36,32 @@ class MyAccountManager(BaseUserManager):
         return user
 
 
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.street}, {self.city}"
+
+
 class Account(AbstractBaseUser, PermissionsMixin):
+    # Basic user info
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
 
-    # required
+    # Customer specific info
+    phone_number = models.CharField(max_length=50, blank=True)
+    _default_address = models.ForeignKey(
+        Address, blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+
+    # Required account fields
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']

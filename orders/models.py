@@ -1,5 +1,5 @@
 from django.db import models
-from customers.models import Customer
+from accounts.models import Account, Address
 from catalog.models import Product
 
 
@@ -24,13 +24,13 @@ class Order(models.Model):
     ]
 
     customer = models.ForeignKey(
-        'customers.Customer', on_delete=models.PROTECT, default=None)
+        Account, on_delete=models.PROTECT, default=None)
     placed_at = models.DateTimeField(auto_now_add=True)
     coupon = models.ForeignKey(Coupon, on_delete=models.PROTECT, default=None)
     payment_status = models.CharField(
         max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
     shipping_address = models.ForeignKey(
-        'customers.Address', on_delete=models.PROTECT, default=None)
+        Address, on_delete=models.PROTECT, default=None)
 
 
 class OrderItem(models.Model):

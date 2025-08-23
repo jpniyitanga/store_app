@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'accounts',
     'catalog',
     'orders',
-    'customers',
     'likes',
     'debug_toolbar',
     'django_extensions',
