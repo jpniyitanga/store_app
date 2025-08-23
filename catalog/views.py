@@ -10,9 +10,13 @@ class ProductListView(generics.ListAPIView):
 
 
 class ProductDetailView(generics.RetrieveAPIView):
-    queryset = Product.objects.filter(is_available=True)
     serializer_class = ProductSerializer
     lookup_field = 'slug'
+
+    # Combines two operations in one db query
+    def get_object(self):
+        slug = self.kwargs.get(self.lookup_field)
+        return get_object_or_404(Product, slug=slug, is_available=True)
 
 
 class ProductByPromotionListView(generics.ListAPIView):

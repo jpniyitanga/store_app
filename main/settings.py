@@ -152,3 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # References custom user model in Account app
 # Replaces Django's built-in User model
 AUTH_USER_MODEL = 'accounts.Account'
+
+REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False
+}

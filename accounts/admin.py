@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import Account
+from .models import Account, Address
 
 
 # Make password read-only
@@ -11,7 +11,7 @@ class AccountAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     list_display = ('email', 'username', 'first_name', 'last_name',
-                    'last_login', 'is_active')
+                    'last_login', 'is_active', 'default_address')
     list_filter = ('is_staff', 'is_active', 'is_superuser')
     # Make first_name and last_name clickable
     list_display_links = ('email', 'first_name', 'last_name')
@@ -19,7 +19,7 @@ class AccountAdmin(UserAdmin):
     readonly_fields = ('last_login', 'date_joined')
     ordering = (['-date_joined'])
     # filter_horizontal = ()
-    # fieldsets = ()
+
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -30,6 +30,8 @@ class AccountAdmin(UserAdmin):
             ),
         }),
     )
+    fieldsets = ()
 
 
 admin.site.register(Account, AccountAdmin)
+admin.site.register(Address)

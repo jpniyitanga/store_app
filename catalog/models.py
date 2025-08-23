@@ -69,6 +69,3 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['name', 'price']
-
-
-# 3:27 mark

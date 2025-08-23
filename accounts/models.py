@@ -53,7 +53,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     # Customer specific info
     phone_number = models.CharField(max_length=50, blank=True)
-    _default_address = models.ForeignKey(
+    default_address = models.ForeignKey(
         Address, blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
     # Required account fields

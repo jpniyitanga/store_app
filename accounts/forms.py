@@ -18,8 +18,22 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('email', 'username', 'first_name',
                   'last_name', 'password1', 'password2',  'street', 'city')
 
+    def save(self, commit=True):
+        address = Address(
+            street=self.cleaned_data['street'],
+            city=self.cleaned_data['city']
+        )
+        address.save()
+
+        user = super().save(commit=True)
+        user.default_address = address
+        if commit:
+            user.save()
+        return user
+
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = Account
-        fields = ('email', 'username', 'first_name', 'last_name')
+        fields = ('email', 'username', 'first_name',
+                  'last_name', 'default_address')
