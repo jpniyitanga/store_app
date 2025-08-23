@@ -1,5 +1,19 @@
 from django.contrib import admin
-from .models import Order, OrderItem
+from django.utils.html import format_html
+from .models import Order, OrderItem, Cart, CartItem
+
+
+class CartItemInline(admin.TabularInline):
+    model = CartItem
+    extra = 1
+    fields = ('product', 'quantity')
+    # readonly_fields = ('total_price',)
+
+
+@admin.register(Cart)
+class CartItemAdmin(admin.ModelAdmin):
+    inlines = [CartItemInline]
+
 
 admin.site.register(Order)
 admin.site.register(OrderItem)
