@@ -11,25 +11,25 @@ from .views import (
 )
 
 urlpatterns = [
-    path('products/', ProductListView.as_view(), name='product-list'),
-    path('products/<slug:slug>/',
+    path('<slug:slug>/',
          ProductDetailView.as_view(), name='product-detail'),
 
 
-    path('products/categories/', CategoryListView.as_view(), name='category-list'),
+    path('categories/', CategoryListView.as_view(), name='category-list'),
 
-    path('products/categories/<slug:slug>/',
+    path('categories/<slug:slug>/',
          CategoryProductListView.as_view(), name='category-product-list'),
 
-    path('products/brands/', BrandListView.as_view(), name='brand-list'),
+    path('brands/', BrandListView.as_view(), name='brand-list'),
 
-    path('products/brands/<slug:slug>/',
+    path('brands/<slug:slug>/',
          BrandProductListView.as_view(), name='brand-product-list'),
 
-    path('products/promotions/<int:promotion_id>/',
+    path('promotions/<int:promotion_id>/',
          ProductByPromotionListView.as_view(), name='products-by-promotion'),
 
-    path('products/tags/<slug:tag_slug>/',
+    path('tags/<slug:tag_slug>/',
          ProductByTagListView.as_view(), name='products-by-tag'),
 
+    path('', ProductListView.as_view(), name='product-list'),
 ]
