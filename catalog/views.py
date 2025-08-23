@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.pagination import PageNumberPagination
 from .models import Product, Category, Brand, Promotion
 from .serializers import ProductSerializer, CategorySerializer, BrandProductListSerializer, BrandSerializer, PromotionSerializer
 
@@ -7,6 +9,10 @@ from .serializers import ProductSerializer, CategorySerializer, BrandProductList
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.filter(is_available=True)
     serializer_class = ProductSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['name', 'description']
+    ordering_fields = ['price']
+    # pagination_class = PageNumberPagination
 
 
 class ProductDetailView(generics.RetrieveAPIView):
