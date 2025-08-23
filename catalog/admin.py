@@ -5,10 +5,19 @@ from django.utils.html import format_html, urlencode
 from .models import Product, Category, Brand, Tag, Promotion
 
 
+class ProductInline(admin.TabularInline):
+    model = Product
+    prepopulated_fields = {'slug': ('name',)}
+    extra = 1
+    fields = ('name', 'slug', 'price', 'stock',
+              'is_available', 'image_url', 'brand')
+
+
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    search_fields = ['name']
+    search_fields = ('name',)
     list_display = ('name', 'slug', 'products_count')
+    inlines = [ProductInline]
 
     # Define computed field and make it sortable
     @admin.display(ordering='products_count')
