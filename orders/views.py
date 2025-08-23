@@ -15,4 +15,4 @@ class CartDetailView(generics.RetrieveAPIView):
 
     def get_object(self):
         id = self.kwargs.get(self.lookup_field)
-        return get_object_or_404(Cart, id=id)
+        return get_object_or_404(Cart.objects.prefetch_related('items__product').filter(id=id))
