@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import generics
 from . models import Cart, CartItem, Product
-from . serializers import CartItemSerializer, CartSerializer
+from . serializers import CartItemSerializer, CartSerializer, AddCartItemSerializer
 
 
 class CartCreateView(generics.CreateAPIView):
@@ -19,8 +19,16 @@ class CartDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CartItemListView(generics.ListCreateAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddCartItemSerializer
+        return CartItemSerializer
+
+    def get_queryset(self):
+        return CartItem.objects.filter(cart_id=self.kwargs['cart_id']).select_related('product')
+
+    def get_serializer_context(self):
+        return {'cart_id': self.kwargs['cart_id']}
 
 
 class CartItemDetailView(generics.RetrieveUpdateDestroyAPIView):
