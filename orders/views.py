@@ -37,4 +37,4 @@ class CartItemDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         product_id = self.kwargs.get(self.lookup_field)
-        return get_object_or_404(CartItem, id=product_id)
+        return get_object_or_404(CartItem, product_id=product_id)
