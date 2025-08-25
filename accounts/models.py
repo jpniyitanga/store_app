@@ -64,6 +64,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
 
 class Address(models.Model):
+    customer = models.ForeignKey(
+        'Customer', on_delete=models.CASCADE, related_name='addresses')
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
 
@@ -72,11 +74,14 @@ class Address(models.Model):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(
+        Account, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=50, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+
+    # Optional default address link
     default_address = models.ForeignKey(
-        Address,
+        'Address',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
