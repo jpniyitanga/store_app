@@ -1,7 +1,7 @@
 from django.db import models
 from uuid import uuid4
 from django.core.validators import MinValueValidator
-from accounts.models import Account, Address
+from accounts.models import Account
 from catalog.models import Product
 
 
@@ -31,8 +31,6 @@ class Order(models.Model):
     coupon = models.ForeignKey(Coupon, on_delete=models.PROTECT, default=None)
     payment_status = models.CharField(
         max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
-    shipping_address = models.ForeignKey(
-        Address, on_delete=models.PROTECT, default=None)
 
 
 class OrderItem(models.Model):
