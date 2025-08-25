@@ -43,6 +43,17 @@ class Account(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
 
+    # Contact and personal info
+    phone_number = models.CharField(max_length=20, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+    # Address fields
+    street = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    province = models.CharField(max_length=100, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
+    country = models.CharField(max_length=100, default='Canada')
+
     # Required account fields
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
@@ -61,32 +72,3 @@ class Account(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Account'
         verbose_name_plural = 'Accounts'
-
-
-class Address(models.Model):
-    customer = models.ForeignKey(
-        'Customer', on_delete=models.CASCADE, related_name='addresses')
-    street = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f"{self.street}, {self.city}"
-
-
-class Customer(models.Model):
-    user = models.OneToOneField(
-        Account, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=50, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-
-    # Optional default address link
-    default_address = models.ForeignKey(
-        'Address',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-    def __str__(self):
-        return f"{self.user.email} (Customer)" if self.user else "Unlinked Customer"
