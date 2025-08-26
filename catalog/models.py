@@ -1,17 +1,20 @@
 from django.db import models
 
 
+# Applies to product, category or brand
 class Promotion(models.Model):
-    description = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     discount_percentage = models.FloatField()
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.description
 
 
+# Applies to product, category or brand
 class Tag(models.Model):
     name = models.CharField(max_length=55, unique=True)
     slug = models.SlugField()
