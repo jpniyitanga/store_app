@@ -13,9 +13,16 @@ class CartItemInline(admin.TabularInline):
 
 @admin.register(Cart)
 class CartItemAdmin(admin.ModelAdmin):
+    model = Cart
+    list_display = ('id', 'created_at')
     readonly_fields = ('id',)
     inlines = [CartItemInline]
 
 
-admin.site.register(Order)
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    model = Order
+    list_display = ('id', 'placed_at', 'payment_status')
+
+
 admin.site.register(OrderItem)

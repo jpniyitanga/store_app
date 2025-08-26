@@ -29,9 +29,13 @@ class Order(models.Model):
     customer = models.ForeignKey(
         Account, on_delete=models.PROTECT, default=None)
     placed_at = models.DateTimeField(auto_now_add=True)
-    coupon = models.ForeignKey(Coupon, on_delete=models.PROTECT, default=None)
+    coupon = models.ForeignKey(
+        Coupon, on_delete=models.PROTECT, blank=True, null=True)
     payment_status = models.CharField(
         max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
+
+    def __str__(self):
+        return f'{self.id}, {self.placed_at}'
 
 
 class OrderItem(models.Model):

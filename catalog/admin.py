@@ -13,6 +13,7 @@ class ProductInline(admin.TabularInline):
               'is_available', 'image_url', 'brand')
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
@@ -57,7 +58,7 @@ class PromotionFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         promotions = Promotion.objects.all()
-        return [(promo.slug, promo.description) for promo in promotions]
+        return [(promo.slug, promo.title) for promo in promotions]
 
     def queryset(self, request, queryset):
         if self.value():
@@ -99,6 +100,7 @@ class ProductAdmin(admin.ModelAdmin):
         return 'OK'
 
 
+@admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'slug')
@@ -110,11 +112,7 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
 
 
+@admin.register(Promotion)
 class PromotionAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'discount_percentage', 'start_date', 'end_date')
-
-
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Brand, BrandAdmin)
-admin.site.register(Promotion)
+    prepopulated_fields = {'slug': ('title',)}
+    list_display = ('title', 'discount_percentage', 'start_date', 'end_date')
