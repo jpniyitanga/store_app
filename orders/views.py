@@ -33,8 +33,8 @@ class CartItemListView(generics.ListCreateAPIView):
 
 class CartItemDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CartItemSerializer
-    lookup_field = 'product_id'
+    lookup_field = 'id'
 
     def get_object(self):
-        product_id = self.kwargs.get(self.lookup_field)
-        return get_object_or_404(CartItem, product_id=product_id)
+        id = self.kwargs.get(self.lookup_field)
+        return get_object_or_404(CartItem, id=id)

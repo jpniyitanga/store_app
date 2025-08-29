@@ -6,6 +6,6 @@ urlpatterns = [
     path('carts/<str:cart_id>/', CartDetailView.as_view(), name='cart-detail'),
     path('carts/<str:cart_id>/items/',
          CartItemListView.as_view(), name='cart-items'),
-    path('carts/<str:cart_id>/items/<int:product_id>/',
+    path('carts/<str:cart_id>/items/<int:id>/',
          CartItemDetailView.as_view(), name='cart-item-detail'),
 ]
