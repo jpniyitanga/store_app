@@ -25,10 +25,10 @@ class CartItemListView(generics.ListCreateAPIView):
         return CartItemSerializer
 
     def get_queryset(self):
-        return CartItem.objects.filter(cart_id=self.kwargs['cart_id']).select_related('product')
+        return CartItem.objects.filter(cart_id=self.kwargs['cart_pk']).select_related('product')
 
     def get_serializer_context(self):
-        return {'cart_id': self.kwargs['cart_id']}
+        return {'cart_id': self.kwargs['cart_pk']}
 
 
 class CartItemDetailView(generics.RetrieveUpdateDestroyAPIView):

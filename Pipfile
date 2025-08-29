@@ -11,6 +11,8 @@ django-debug-toolbar = "*"
 mysqlclient = "*"
 python-dotenv = "*"
 django-extensions = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
