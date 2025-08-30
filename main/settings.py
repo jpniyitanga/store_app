@@ -167,3 +167,13 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
 }
+
+DJOSER = {
+    'USER_CREATE_PASSWORD_RETYPE': True,  # Optional: requires password confirmation
+    'SERIALIZERS': {
+        'user_create': 'accounts.serializers.CustomUserCreateSerializer',
+        # optional: for retrieving user data
+        'user': 'accounts.serializers.CustomUserCreateSerializer',
+        'current_user': 'accounts.serializers.CustomUserCreateSerializer',
+    }
+}
