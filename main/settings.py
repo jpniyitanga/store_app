@@ -175,8 +175,13 @@ DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,  # Optional: requires password confirmation
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.CustomUserCreateSerializer',
-        # optional: for retrieving user data
-        # 'user': 'accounts.serializers.CustomUserRetrieveSerializer',
+        # Optional: for retrieving user data
+        'user': 'accounts.serializers.CustomUserRetrieveSerializer',
         'current_user': 'accounts.serializers.CustomUserRetrieveSerializer',
-    }
+    },
+    "PERMISSIONS": {
+        # applies to /auth/users/me/
+        "current_user": ["rest_framework.permissions.IsAuthenticated"],
+    },
+
 }
