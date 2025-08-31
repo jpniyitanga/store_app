@@ -30,6 +30,8 @@ urlpatterns = [
     # path('', HomepageTemplateView.as_view(), name='home'),
     # path('', HomepageView.as_view()),
     # path('products/', include('products.urls')),
+    # Register custom UserViewSet FIRST then Djoser
+    path('auth/', include('accounts.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('api/', include('api.urls')),
