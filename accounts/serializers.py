@@ -27,10 +27,9 @@ class CustomUserRetrieveSerializer(serializers.ModelSerializer):
     province = serializers.CharField(required=False)
     postal_code = serializers.CharField(required=False)
     country = serializers.CharField(required=False)
-    date_joined = serializers.DateTimeField()
 
     class Meta:
         model = Account
         fields = ['id', 'email', 'username', 'first_name', 'last_name', 'phone_number',
                   'birth_date', 'street', 'city', 'province', 'postal_code', 'country', 'date_joined']
-        read_only_fields = ('id', 'date_joined')
+        read_only_fields = ('id', 'username', 'date_joined')
