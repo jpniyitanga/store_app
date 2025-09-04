@@ -179,9 +179,12 @@ DJOSER = {
         'user': 'accounts.serializers.CustomUserRetrieveSerializer',
         'current_user': 'accounts.serializers.CustomUserRetrieveSerializer',
     },
+    # Disables /auth/users/ and /auth/users/<id>/
+    'DISABLE_ENDPOINTS': ['user'],
     "PERMISSIONS": {
         # applies to /auth/users/me/
         "current_user": ["rest_framework.permissions.IsAuthenticated"],
     },
+
 
 }
