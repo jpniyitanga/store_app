@@ -13,6 +13,7 @@ python-dotenv = "*"
 django-extensions = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+django-filter = "*"
 
 [dev-packages]
 

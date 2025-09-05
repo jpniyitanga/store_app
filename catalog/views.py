@@ -1,67 +1,77 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
-from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, permissions, filters
+from rest_framework.decorators import action
 from .models import Product, Category, Brand, Promotion
+from .filters import ProductFilter
 from .serializers import ProductSerializer, CategorySerializer, BrandProductListSerializer, BrandSerializer, PromotionSerializer
 
 
-class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.filter(is_available=True)
-    serializer_class = ProductSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['name', 'description']
-    ordering_fields = ['price']
-    # pagination_class = PageNumberPagination
+class IsAdminOrReadOnly(permissions.BasePermission):
+    """
+    Custom permission:
+    - SAFE_METHODS (GET, HEAD, OPTIONS) → everyone can access
+    - POST, PUT, PATCH, DELETE → only admins
+    """
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user and request.user.is_staff
 
 
-class ProductDetailView(generics.RetrieveAPIView):
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'slug'
+    permission_classes = [IsAdminOrReadOnly]
 
-    # Combines two operations in one db query
-    def get_object(self):
-        slug = self.kwargs.get(self.lookup_field)
-        return get_object_or_404(Product, slug=slug, is_available=True)
-
-
-class ProductByPromotionListView(generics.ListAPIView):
-    serializer_class = ProductSerializer
-
-    def get_queryset(self):
-        promotion_id = self.kwargs['promotion_id']
-        return Product.objects.filter(promotions__id=promotion_id)
+    # Add search & ordering
+    filter_backends = [DjangoFilterBackend,
+                       filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = ProductFilter
+    search_fields = ['name', 'description']
+    ordering_fields = ['price', 'date_added']
 
 
-class ProductByTagListView(generics.ListAPIView):
-    serializer_class = ProductSerializer
-
-    def get_queryset(self):
-        tag_slug = self.kwargs['tag_slug']
-        return Product.objects.filter(tags__slug=tag_slug)
-
-
-class CategoryListView(generics.ListAPIView):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    lookup_field = 'slug'
+    permission_classes = [IsAdminOrReadOnly]
+
+    @action(detail=True, methods=['get'])
+    def products(self, request, slug=None):
+        category = self.get_object()
+        queryset = Product.objects.filter(
+            category=category, is_available=True)
+
+        # You can apply pagination and filtering here if needed
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = ProductSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = ProductSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
-class CategoryProductListView(generics.ListAPIView):
-    serializer_class = ProductSerializer
-
-    def get_queryset(self):
-        category_slug = self.kwargs['slug']
-        return Product.objects.filter(category__slug=category_slug, is_available=True)
-
-
-class BrandListView(generics.ListAPIView):
+class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
+    lookup_field = 'slug'
+    permission_classes = [IsAdminOrReadOnly]
 
+    @action(detail=True, methods=['get'])
+    def products(self, request, slug=None):
+        brand = self.get_object()
+        queryset = Product.objects.filter(brand=brand, is_available=True)
 
-class BrandProductListView(generics.ListAPIView):
-    serializer_class = BrandProductListSerializer
+        # You can apply pagination and filtering here if needed
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = BrandProductListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-    def get_queryset(self):
-        brand_slug = self.kwargs['slug']
-        return Product.objects.filter(brand__slug=brand_slug, is_available=True)
+        serializer = BrandProductListSerializer(queryset, many=True)
+        return Response(serializer.data)
